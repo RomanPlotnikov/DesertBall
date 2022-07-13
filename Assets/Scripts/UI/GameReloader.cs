@@ -4,11 +4,13 @@ using UnityEngine.UI;
 
 public class GameReloader : MonoBehaviour
 {
+    [SerializeField] private Button _closeButton;
     [SerializeField] private Button _restartButton;
     [SerializeField] private CoinContainer _coinContainer;
 
     private void OnEnable()
     {
+        _closeButton.onClick.AddListener(CloseApplication);
         _restartButton.onClick.AddListener(RestartLevel);
         _coinContainer.CoinCollected += CheckCoinsNumber;
 
@@ -17,6 +19,7 @@ public class GameReloader : MonoBehaviour
 
     private void OnDisable()
     {
+        _closeButton.onClick.RemoveListener(CloseApplication);
         _restartButton.onClick.RemoveListener(RestartLevel);
         _coinContainer.CoinCollected -= CheckCoinsNumber;
     }
@@ -37,5 +40,10 @@ public class GameReloader : MonoBehaviour
     {
         SceneManager.LoadScene(0);
         Time.timeScale = 1f;
+    }
+
+    private void CloseApplication()
+    {
+        Application.Quit();
     }
 }
